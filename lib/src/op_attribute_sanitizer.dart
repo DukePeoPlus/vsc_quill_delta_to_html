@@ -95,6 +95,14 @@ class OpAttributes {
   set italic(bool? v) =>
       v == null ? attrs.remove('italic') : attrs['italic'] = v;
 
+  bool? get tag => attrs['tag'];
+  set tag(bool? v) =>
+      v == null ? attrs.remove('tag') : attrs['tag'] = v;
+
+  bool? get hashtag => attrs['hashtag'];
+  set hashtag(bool? v) =>
+      v == null ? attrs.remove('hashtag') : attrs['hashtag'] = v;
+
   bool? get underline => attrs['underline'];
   set underline(bool? v) =>
       v == null ? attrs.remove('underline') : attrs['underline'] = v;
