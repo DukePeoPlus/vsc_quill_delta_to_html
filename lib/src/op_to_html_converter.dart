@@ -422,6 +422,8 @@ class OpToHtmlConverter {
     });
 
     const inlineTags = [
+      ['tag', 'tag'],
+      ['hashtag', 'hashtag'],
       ['link', 'a'],
       ['mentions', 'a'],
       ['script'],
