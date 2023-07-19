@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:html_unescape/html_unescape_small.dart';
+import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 class TagKeyValue {
   TagKeyValue({required this.key, this.value});
@@ -30,7 +31,9 @@ enum EncodeTarget {
   url,
 }
 
-String makeStartTag(String? tag, [List<TagKeyValue>? attrs]) {
+String makeStartTag(String? tag,[
+  List<TagKeyValue>? attrs, bool isList = false, DeltaInsertOp? op,
+]) {
   if (tag == null || tag.isEmpty) {
     return '';
   }
@@ -47,8 +50,23 @@ String makeStartTag(String? tag, [List<TagKeyValue>? attrs]) {
   if (tag == 'img' || tag == 'br') {
     closing = '/>';
   }
+
+  if (isList) {
+    return attrsStr.isNotEmpty ? '<$tag $attrsStr${_renderIndent(op)}$closing' : '<$tag$closing';
+  }
+  
   return attrsStr.isNotEmpty ? '<$tag $attrsStr$closing' : '<$tag$closing';
 }
+
+String _renderIndent(DeltaInsertOp? op) {
+    String indent = '';
+    if (op != null) {
+      if (op.attributes.indent != null) {
+        indent = '${indent}_${op.attributes.indent}';
+      }
+    }
+    return indent;
+  }
 
 String makeEndTag([String tag = '']) {
   return tag.isNotEmpty ? '</$tag>' : '';
