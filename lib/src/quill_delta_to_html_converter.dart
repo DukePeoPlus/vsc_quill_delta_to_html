@@ -190,9 +190,16 @@ class QuillDeltaToHtmlConverter {
 
   String _renderList(ListGroup list) {
     final firstItem = list.items[0];
-    return makeStartTag(getListTag(firstItem.item.op), null, true, firstItem.item.op) +
-        list.items.map((li) => _renderListItem(li)).join('') 
-        + makeEndTag(getListTag(firstItem.item.op));
+    String tag = getListTag(firstItem.item.op);
+    DeltaInsertOp op = firstItem.item.op;
+
+    if (op.attributes.indent != null) {
+      tag = '$tag: ${op.attributes.indent}';
+    }
+
+    return makeStartTag(tag)
+      + list.items.map((li) => _renderListItem(li)).join('') 
+      + makeEndTag(tag);
   }
 
   String _renderListItem(ListItem li) {
